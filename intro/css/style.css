@@ -1,0 +1,15 @@
+h1 {
+  font-family: "Helvetica";
+  background-color: rebeccapurple;
+  color: white;
+  padding: 1em;
+}
+
+img {
+  max-width: 400px;
+  border-radius: 15%;
+}
+
+button {
+  font-size: 24px;
+}
