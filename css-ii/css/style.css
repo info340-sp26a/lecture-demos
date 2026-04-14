@@ -1,6 +1,16 @@
+/* body {
+  display: flex;
+} */
+
 /* general styling */
 h1, h2, h3 {
   font-family: 'Helvetica';
+}
+
+h1 {
+  /* border: 3px solid black; */
+  /* padding: 2em; */
+  /* margin: 2em; */
 }
 
 h2 {
@@ -12,11 +22,24 @@ h2 {
 nav {
   color: white;
   background-color: #4b2e83;
+  padding: .5em;
 }
 
 nav a {
   color: white;
 }
+
+nav ul {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;  
+}
+
+nav li {
+  display: inline;
+  /* margin-right: 100px; */
+}
+
 
 
 /* about section */
@@ -30,8 +53,25 @@ nav a {
 
 
 /* topics cards */
+
+.card-deck {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 .topics-section .card {
   border: 1px solid black;
+  flex-grow: 1;
+  display: flex;  
+}
+
+.topics-section .card h3 {
+  flex-basis: 50%;
+}
+
+.topics-section .card.html-card {
+  flex-grow: 3;
 }
 
 .topics-section img {
