@@ -2,6 +2,12 @@
   box-sizing: border-box;
 }
 
+.spider-container {
+  background-image: url('../img/busy-spider-icon.png');
+  width: 300px;
+  height: 300px;
+}
+
 /* general styling */
 h1, h2, h3 {
   font-family: 'Montserrat', 'Helvetica', sans-serif;
@@ -34,9 +40,6 @@ nav a {
 }
 
 /* main content (columns) */
-main {
-  display: flex;
-}
 
 /* about section */
 .about-section {
@@ -60,6 +63,7 @@ main {
 
 .topics-section .card {
   border: 1px solid black;
+  flex-basis: 100%;
   flex-grow: 1;
 }
 
@@ -70,4 +74,34 @@ main {
 /* other */
 footer {
   font-size: smaller;
+}
+
+@media (min-width: 768px) {
+
+  body {
+    background-color: lightsalmon;
+  }
+
+  main {
+    display: flex;
+  }
+
+  .topics-section .card {
+    background-color: white;
+    flex-basis: 50%;
+  }
+}
+
+@media (min-width: 992px) {
+
+  body {
+    background-color: goldenrod;
+  }
+
+
+  .topics-section .card {
+    background-color: white;
+    flex-basis: 33%;
+  }
+
 }
