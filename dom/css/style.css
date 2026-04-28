@@ -5,3 +5,7 @@
 .scale-out {
 	transform: scale(0); 
 }
+
+.fancy {
+	font-style: italic;
+}
