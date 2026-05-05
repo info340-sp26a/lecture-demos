@@ -3,3 +3,12 @@ header {
   background-color: rebeccapurple;
   padding: .5em;
 }
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-container img {
+  max-width: 250px;
+}
