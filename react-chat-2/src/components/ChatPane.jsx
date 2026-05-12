@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ComposeForm } from './ComposeForm.jsx';
 
@@ -9,8 +9,17 @@ export function ChatPane(props) {
   console.log("rendering chatpane")
   const { currentChannel } = props;
 
+  //const resultArray = useState(INITIAL_CHAT_LOG);
+  const [messageObjArray, setMessageObjArray] = useState(INITIAL_CHAT_LOG);
+
+
   //data: an array of message objects [{}, {}]
-  const messageObjArray = INITIAL_CHAT_LOG
+  //const messageObjArray = INITIAL_CHAT_LOG
+
+  const handleClick = (event) => {
+    console.log("You clicked me!");
+    addMessage(USERS[1], "Hello world", "general");
+  }
 
   // DATA MANAGEMENT: how do we change
   const addMessage = (userObj, messageText, channel) => {
@@ -23,7 +32,11 @@ export function ChatPane(props) {
       "channel": channel
     }
     console.log(newMessage);
-    messageObjArray.push(newMessage)
+    //messageObjArray.push(newMessage)
+    const newArray = [...messageObjArray, newMessage];
+    setMessageObjArray(newArray); //1. Write on the board
+                                  //2. Re-renders the component
+
   }
 
   /* RENDERING: what do we look like */
@@ -49,7 +62,8 @@ export function ChatPane(props) {
       <div className="scrollable-pane pt-2 my-2">
         {/* button demo */}
         <div className="mb-2">
-          <button className="btn btn-success">Add a message!</button>
+          {/* addEventListener('click', function()) */}
+          <button onClick={handleClick} className="btn btn-success">Add a message!</button>
         </div>
         <hr/>
 
@@ -62,7 +76,7 @@ export function ChatPane(props) {
         {messageItemArray}
       </div>
 
-      <ComposeForm currentChannel={currentChannel} />
+      <ComposeForm addMessageFunction={addMessage} currentChannel={currentChannel} />
       </>
   )
 }
