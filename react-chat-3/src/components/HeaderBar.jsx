@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
+
+import Dropdown from 'react-bootstrap/Dropdown';
+
 
 import DEFAULT_USERS from '../data/users.json';
 
 export function HeaderBar(props) {
+  const { currentUser, changeUser } = props;
 
   //event handler
   const handleClick = (event) => {
@@ -11,18 +15,23 @@ export function HeaderBar(props) {
 
     //do something with userObj!
     console.log(selectedUserObj);
+    changeUser(selectedUserObj);
   }
 
   //render buttons
   const userButtons = DEFAULT_USERS.map((userObj) => {
     let classListString = "btn user-icon"
 
+    if(userObj.userId === currentUser.userId) {
+      classListString += " highlighted"      
+    }
+
     return (
-      <button className={classListString} key={userObj.userName} 
+      <Dropdown.Item className={classListString} key={userObj.userName} 
         name={userObj.userId} onClick={handleClick}
       >
-        <img src={userObj.userImg} alt={userObj.userName + " avatar"} />
-      </button>
+        <img src={userObj.userImg} alt={userObj.userName + " avatar"} /> {userObj.userName}
+      </Dropdown.Item>
     )
   })
 
@@ -30,7 +39,15 @@ export function HeaderBar(props) {
     <header className="text-light bg-primary px-1 d-flex justify-content-between">
       <h1>React Chat</h1>
       <div>
-        {userButtons}
+        <Dropdown>
+          <Dropdown.Toggle variant="primary">
+            <img src={currentUser.userImg} alt={currentUser.userName + " avatar"} />
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            {userButtons}
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
     </header>
   )
