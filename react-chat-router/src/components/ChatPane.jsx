@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
 import { ComposeForm } from './ComposeForm.jsx';
 
-export function ChatPane(props) {
+import { useParams } from 'react-router';
 
-  const currentChannel = "general" //hard code for the moment
+export function ChatPane(props) {
   const { messageArray, addMessageFunction, currentUser } = props;
+
+  const paramsObj = useParams();
+  const currentChannel = paramsObj.channelName;
 
   //RENDERING: what do we look like
 
