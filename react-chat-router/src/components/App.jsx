@@ -15,6 +15,7 @@ function App(props) {
   const [messageStateArray, setMessageStateArray] = useState(INITIAL_HISTORY);
   const [currentUser, setCurrentUser] = useState(DEFAULT_USERS[1]) //initialize;
 
+  
   //STATE MANAGEMENT: how do we change?
   const addMessage = (userObj, messageText, channel) => {
     const newMessage = {
@@ -25,13 +26,29 @@ function App(props) {
       "timestamp": Date.now(),
       "channel": channel
     }
+  
     const newArray = [...messageStateArray, newMessage];
     setMessageStateArray(newArray); //update state & re-render
   }
 
+  const likeMessage = (timestamp) => {
+    const updatedMessages = messageStateArray.map((msgObj) => {
+      if(msgObj.timestamp == timestamp) {
+        return {...msgObj, isLiked: !msgObj.isLiked}
+      } else {
+        return {...msgObj};
+      }
+    })
+
+    setMessageStateArray(updatedMessages)
+  }
+
+
   const changeUser = (newUserObj) => {
     setCurrentUser(newUserObj);
   }
+
+
 
   return (
     <div className="container-fluid d-flex flex-column">
@@ -44,6 +61,7 @@ function App(props) {
           currentUser={currentUser} 
           messageArray={messageStateArray}
           addMessageFunction={addMessage}
+          likeMessageFunction={likeMessage}
           />
         } />
         <Route path="/signin" element={

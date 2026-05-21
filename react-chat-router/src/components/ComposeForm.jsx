@@ -17,6 +17,7 @@ export function ComposeForm(props) {
 
     addMessageFunction(currentUser, inputtedText, currentChannel);   
     setInputtedText('');
+
   }
 
   return (
