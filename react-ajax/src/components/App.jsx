@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //example GitHub repo data
 const EXAMPLE_DATA = [
@@ -9,24 +9,56 @@ const EXAMPLE_DATA = [
 
 
 function App(props) {
+  console.log("rendering app");
   const [stateData, setStateData] = useState(EXAMPLE_DATA);
   //control form
-  const [queryInput, setQueryInput] = useState('');
+  const [queryInput, setQueryInput] = useState('react');
 
+  useEffect(() => {
+    console.log("effect hook");
+
+    const url = "https://api.github.com/search/repositories?q="+queryInput;
+    
+    fetch(url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((dataObj) => {
+        //set it to state to render
+        setStateData(dataObj.items);
+      })
+
+  }, [])
+
+
+
+  
   const handleChange = (event) => {
     setQueryInput(event.target.value);
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("submitting form");
 
     //do something with form input!
+    const url = "https://api.github.com/search/repositories?q="+queryInput;
+    
+    const response = await fetch(url)
+    const dataObj = await response.json();
+    setStateData(dataObj.items);
+
+
+    //
+    //const newAray = oldArray.map()
+
 
   }
 
 
   //render the data
+  console.log("rendering state")
+  console.log(stateData);
   const dataElemArray = stateData.map((repo) => {
     return <li key={repo.html_url}><a href={repo.html_url}>{repo.full_name}</a></li>
   })
@@ -37,7 +69,7 @@ function App(props) {
     <div className="container">
       <header><h1>AJAX Demo</h1></header> 
 
-      <form method="GET" action="https://api.github.com/search/repositories">
+      <form method="GET" action="https://api.github.com/search/repositories" onSubmit={handleSubmit}>
         <input type="text" className="form-control mb-2" 
           name="q"
           placeholder="Search Github for..."
