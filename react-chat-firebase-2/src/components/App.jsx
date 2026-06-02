@@ -3,6 +3,9 @@ import React, {useEffect, useState} from 'react';
 import { Routes, Route, Outlet, Navigate, useNavigate } from 'react-router';
 import { getDatabase, ref, push as firebasePush, onValue } from 'firebase/database'
 
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
+
 import { HeaderBar } from './HeaderBar.jsx';
 import ChatPage from './ChatPage.jsx';
 import SignInPage from './SignInPage.jsx';
@@ -22,6 +25,24 @@ function App(props) {
   useEffect(() => {
     //log in a default user
     //changeUser(DEFAULT_USERS[1])
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, (firebaseUser) => {
+      console.log("Auth state changed");
+      if(firebaseUser) { //signed in
+        console.log(firebaseUser);
+        firebaseUser.userName = firebaseUser.displayName;
+        firebaseUser.userImg = firebaseUser.photoURL || "/img/null.png";
+        firebaseUser.userId = firebaseUser.uid;
+        setCurrentUser(firebaseUser);
+      } else { //signedOut
+        setCurrentUser(DEFAULT_USERS[0]) //undefined
+      }
+
+
+    })
+
+
   }, []) //array is list of variables that will cause this to rerun if changed
 
   //effect to run when the component first loads
@@ -71,6 +92,12 @@ function App(props) {
     const db = getDatabase();
     const allMMessagesRef = ref(db, "allMessages");
     firebasePush(allMMessagesRef, newMessageObj);
+
+    //save a copy of this user's messages
+    const userDataRef = ref(db, "userData/"+currentUser.uid+"/post")
+    firebasePush(userDataRef, newMessageObj);
+
+
   }
 
   return (
